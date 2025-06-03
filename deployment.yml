@@ -1,0 +1,8 @@
+- name: Deploy Maven Artifact
+  hosts: local
+  become: yes
+  tasks:
+    - name: Copy the artifact to the deployment directory
+      copy:
+        src: "/var/lib/jenkins/workspace/Mav/target/Mav-1.0-SNAPSHOT.jar"
+        dest: "/opt/deployment/Mav-1.0-SNAPSHOT.jar"
