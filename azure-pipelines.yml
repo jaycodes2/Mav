@@ -1,22 +1,19 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-# Step 1: Maven Build and Test Execution
 - task: Maven@3
   inputs:
-    mavenPomFile: 'pom.xml'  # Ensure your pom.xml is at the repository root
-    goals: 'clean package'
-    options: ''              # Add any additional Maven options if needed
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    options: '-X'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    mavenVersionOption: 'Default'
     publishJUnitResults: true
-    testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
-
-# Step 2: Publish Unit Test Results
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
-    mergeTestResults: true
-    testRunTitle: 'Maven Unit Test Results'
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
